@@ -3,4 +3,7 @@ git:
 	git commit -m "$(msg)"
 	git push origin master
 
-.PHONY: git
+postgres: 
+	docker-compose -f ./.devEnvironment/postgres.yml up -d
+
+.PHONY: git postgres

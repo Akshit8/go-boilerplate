@@ -2,6 +2,7 @@
 
 ## Makefile specs
 - **git** - pushes code to remote git repository
+- **postgres** - start postgres dev container on your machine
 
 ## References
 [go-development-environment-with-docker-and-vscode](https://medium.com/better-programming/a-complete-go-development-environment-with-docker-and-vscode-a3e4410d27f7)<br>
