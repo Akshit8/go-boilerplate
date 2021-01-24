@@ -1,7 +1,6 @@
-run:
-	cd src && \
-	go run main.go
+git:
+	git add .
+	git commit -m "$(msg)"
+	git push origin master
 
-mod-tidy:
-	cd src && \
-	go run main.go
+.PHONY: git
