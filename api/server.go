@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Akshit8/go-boilerplate/api/handlers"
 	"github.com/Akshit8/go-boilerplate/api/utils"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -37,13 +38,7 @@ func CreateNewServer() *chi.Mux {
 	r.Use(middleware.Timeout(60 * time.Second))
 
 	r.Route("/api/v1", func(r chi.Router) {
-		r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
-			newhealth := health{
-				Health: "this is a health check route",
-				Check: true,
-			}
-			utils.SendHTTPResponse(newhealth, 200, w)
-		})
+		r.Get("/health", healthCheck)
 		r.Mount("/users", userRouter())
 		r.Mount("/notes", noteRouter())
 	})
@@ -51,8 +46,23 @@ func CreateNewServer() *chi.Mux {
 	return r
 }
 
+func healthCheck(w http.ResponseWriter, r *http.Request) {
+	newhealth := health{
+		Health: "this is a health check route",
+		Check:  true,
+	}
+	utils.SendHTTPResponse(newhealth, 200, w)
+}
+
 func userRouter() http.Handler {
 	r := chi.NewRouter()
+	r.Post("/", handlers.CreateUser)
+	r.Get("/all", handlers.Get)
+	r.Route("/{userID}", func(r chi.Router) {
+		r.Get("/", handlers.GetUser)
+		r.Put("/", handlers.UpdateUser)
+		r.Delete("/", handlers.DeleteUser)
+	})
 	return r
 }
 
