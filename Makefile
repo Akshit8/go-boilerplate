@@ -6,4 +6,7 @@ git:
 postgres: 
 	docker-compose -f ./.devEnvironment/postgres.yml up -d
 
-.PHONY: git postgres
+start:
+	go run main.go
+
+.PHONY: git postgres main

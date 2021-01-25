@@ -1,7 +1,9 @@
 {
   "go.useLanguageServer": true,
   "go.testOnSave": false,
+  "go.testFlags": ["-v"],
   "go.lintTool": "golint",
+  "go.lintFlags": [],
   "go.lintOnSave": "workspace",
   // "go.autocompleteUnimportedPackages": true,
   "[go]": {
@@ -20,7 +22,7 @@
     }
   },
   "gopls": {
-    "ui.completion.usePlaceholders": true,
+    "ui.completion.usePlaceholders": false,
     "ui.diagnostic.staticcheck": true
   },
   "fileheader.Author": "Akshit Sadana (akshitsadana@gmail.com)",

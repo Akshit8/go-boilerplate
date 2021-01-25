@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
+	"net/http"
 	"os"
 
+	"github.com/Akshit8/go-boilerplate/api"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 )
@@ -42,7 +45,7 @@ func init() {
 	viper.AddConfigPath("./config")
 
 	if err = viper.ReadInConfig(); err != nil {
-		log.Error("cannot read config: ", err)
+		log.Fatalf("cannot read config: %s", err.Error())
 	}
 
 	// Enable VIPER to read Environment Variables
@@ -50,10 +53,16 @@ func init() {
 
 	err = viper.Unmarshal(&Config)
 	if err != nil {
-		log.Error("cannot unmarshal config: ", err)
+		log.Fatalf("cannot unmarshal config: %s", err.Error())
 	}
 }
 
 func main() {
-	log.Info(Config)
+	r := api.CreateNewServer()
+
+	serverAddress := fmt.Sprintf("%s:%d", Config.AppHost, Config.AppPort)
+
+	log.Printf("starting app in %s environment", Config.AppEnv)
+	log.Printf("server running on %s", serverAddress)
+	log.Fatal(http.ListenAndServe(serverAddress, r))
 }
